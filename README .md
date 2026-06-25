@@ -1,4 +1,4 @@
-# 🚇 TfL London Underground Real-Time Analytics Platform
+#  TfL London Underground Real-Time Analytics Platform
 
 A dual-pipeline analytics platform built on **Microsoft Fabric** that monitors and analyses London Underground service disruptions — combining a **batch (historical)** pipeline for trend analysis with a **real-time (streaming)** pipeline for live operational monitoring.
 
@@ -6,7 +6,7 @@ A dual-pipeline analytics platform built on **Microsoft Fabric** that monitors a
 
 ---
 
-## 📌 Business Problem
+##  Business Problem
 
 London Underground riders and operations teams need to answer two different kinds of questions:
 
@@ -17,7 +17,7 @@ This project deliberately builds *both*, using two independent pipelines fed fro
 
 ---
 
-## 🏗️ Architecture
+##  Architecture
 
 ```
                          TfL Unified API (polled every 15 min)
@@ -53,7 +53,7 @@ This project deliberately builds *both*, using two independent pipelines fed fro
 
 ---
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 | Layer | Technology | Purpose |
 |---|---|---|
@@ -72,7 +72,7 @@ This project deliberately builds *both*, using two independent pipelines fed fro
 
 ---
 
-## 📊 Data Model
+##  Data Model
 
 The Gold layer started as a simple star schema (`fact_disruption`, `dim_line`, `dim_date`) and was deliberately extended into a **Fact Constellation Schema** by adding two more fact tables that share `dim_line`:
 
@@ -86,25 +86,34 @@ The Gold layer started as a simple star schema (`fact_disruption`, `dim_line`, `
 
 ---
 
-## 📈 Dashboards
+##  Dashboards
 
 ### Batch — Power BI (Direct Lake), 4 pages
 1. **Network Overview** — live network health snapshot, KPI cards
+   ![Network Overview](./screenshots/network_overview.png)
 2. **Disruption Analysis** — disruption trends by line, reason, time of day
+   ![Disruption Analysis](./screenshots/disruption_analysis.png)
 3. **Line Deep Dive** — per-line drill-through detail
+   ![Line Deep Dive](./screenshots/line_deep_dive.png)
 4. **Disruption Duration** — Top 10 Longest Disruptions, MTBD, % Severe Delay Duration, Avg Disruption Duration
+   ![Disruption Duration](./screenshots/disruption_duration.png)
 
 ### Real-time — KQL Real-Time Dashboard
 - **Live Line Status** — multi-stat view of all 11 lines with conditional colour formatting
 - **Active Disruptions Now** / **Network Health %** — current-state KPIs (using `arg_max` to always reflect the *latest* poll, not a historical aggregate)
+
+![Live Dashboard — Status & KPIs](./screenshots/live_dashboard_status.png)
+
 - **Disruption Timeline** (heatmap) and **Most Affected Lines** (bar chart) — both driven by an identical **severity-weighted ranking system**, so the two visuals never contradict each other (see Key Decisions below)
 - **Active Disruptions** table
+
+![Live Dashboard — Disruption Timeline & Most Affected Lines](./screenshots/live_dashboard_disruptions.png)
 
 **Cross-validation:** during development, the batch and real-time pipelines independently agreed on Network Health % at the same point in time — a good signal that the data pipeline is sound, since two separately-built systems converged on the same answer without being designed to match.
 
 ---
 
-## 🧠 Key Engineering Decisions
+##  Key Engineering Decisions
 
 A few decisions worth highlighting (full detail in [`TECHNICAL_NOTES.md`](./TECHNICAL_NOTES.md)):
 
@@ -115,7 +124,7 @@ A few decisions worth highlighting (full detail in [`TECHNICAL_NOTES.md`](./TECH
 
 ---
 
-## 🔍 Key Findings
+##  Key Findings
 
 - Victoria and District have consistently ranked among the most-affected lines across the monitored window
 - Off-peak hours show the highest concentration of planned closures
@@ -123,7 +132,7 @@ A few decisions worth highlighting (full detail in [`TECHNICAL_NOTES.md`](./TECH
 
 ---
 
-## ⚠️ Known Limitations
+##  Known Limitations
 
 Documented honestly rather than hidden — full list and reasoning in [`TECHNICAL_NOTES.md`](./TECHNICAL_NOTES.md):
 
@@ -135,7 +144,7 @@ Documented honestly rather than hidden — full list and reasoning in [`TECHNICA
 
 ---
 
-## 🚀 Future Work
+##  Future Work
 
 - Average delay per line measure (quick DAX addition)
 - A dedicated Data Quality layer (deferred to the next portfolio project, to be designed in from the start rather than retrofitted)
@@ -144,7 +153,7 @@ Documented honestly rather than hidden — full list and reasoning in [`TECHNICA
 
 ---
 
-## 📁 Repository Structure
+##  Repository Structure
 
 ```
 tfl-fabric-analytics/
@@ -167,13 +176,16 @@ tfl-fabric-analytics/
 │   └── measures.md
 └── screenshots/
     ├── network_overview.png
+    ├── disruption_analysis.png
+    ├── line_deep_dive.png
     ├── disruption_duration.png
-    └── realtime_dashboard.png
+    ├── live_dashboard_status.png
+    └── live_dashboard_disruptions.png
 ```
 
 ---
 
-## 👤 Author
+##  Author
 
 **Maria Nataqi** — Data Analyst transitioning into Data Engineering
 DP-600 (Microsoft Fabric) · PL-300 · Databricks Analyst Specialisation
