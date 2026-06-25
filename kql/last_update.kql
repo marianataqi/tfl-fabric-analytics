@@ -1,0 +1,10 @@
+// Last Update
+// ============================================================
+// Returns the timestamp of the most recent record in LineStatus,
+// formatted for display. Used as a "data freshness" indicator
+// on the dashboard.
+
+LineStatus
+| summarize LastUpdate = max(timestamp)
+| extend LastUpdate = format_datetime(LastUpdate, 'yyyy-MM-dd HH:mm')
+| project LastUpdate

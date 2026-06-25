@@ -1,0 +1,14 @@
+// Network Health %
+// ============================================================
+// Returns the percentage of lines currently in "Good Service".
+// Same arg_max pattern as above, ensuring the percentage reflects
+// the latest known state per line, not a count of all historical
+// records (which would overstate or understate disruptions).
+
+LineStatus
+| summarize arg_max(timestamp, status) by line_name
+| summarize
+    Total = dcount(line_name),
+    Good = dcountif(line_name, status == "Good Service")
+| extend HealthPct = round(todouble(Good) / todouble(Total) * 100, 1)
+| project HealthPct

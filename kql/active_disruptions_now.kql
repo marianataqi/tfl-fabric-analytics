@@ -1,0 +1,11 @@
+// Active Disruptions Now
+// ============================================================
+// Returns the count of lines currently NOT in "Good Service".
+// Uses arg_max to take only the latest record per line, so the
+// result reflects the current state rather than the full history
+// of records within the dashboard's time range.
+
+LineStatus
+| summarize arg_max(timestamp, status) by line_name
+| where status != "Good Service"
+| summarize ActiveDisruptions = dcount(line_name)

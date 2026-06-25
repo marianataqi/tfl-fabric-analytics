@@ -1,0 +1,10 @@
+// Active Disruptions (Table)
+// ============================================================
+// Raw, unaggregated feed of every non-"Good Service" record,
+// most recent first. Gives operational users the full detail
+// (reason, exact timestamp) behind the summary KPIs above.
+
+LineStatus
+| where status != "Good Service"
+| project line_name, status, reason, timestamp
+| order by timestamp desc

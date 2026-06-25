@@ -1,0 +1,11 @@
+// Live Line Status
+// ============================================================
+// Returns the current status and reason for all 11 lines, using
+// arg_max to take only the latest record per line. Feeds the
+// multi-stat visual with conditional colour formatting
+// (green/yellow/red/blue) by status.
+
+LineStatus
+| summarize arg_max(timestamp, status, reason) by line_name
+| project line_name, status, reason
+| order by line_name asc

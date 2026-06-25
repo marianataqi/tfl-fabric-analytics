@@ -1,0 +1,30 @@
+// Disruption Timeline (Heatmap)
+// ============================================================
+// Severity-weighted ranking, scoped to the dashboard's selected
+// time range and binned at 15-minute resolution (matching the
+// actual polling interval). Excludes non-genuine statuses, then
+// ranks lines worst-to-best by total weighted severity. The
+// secondary sort key (line_name asc) on LineRank guarantees a
+// deterministic order for tied scores, so this visual and
+// most_affected_lines.kql can never silently disagree.
+
+let SeverityByLine = LineStatus
+| where timestamp between (startTime .. endTime)
+| where status !in (
+    "Good Service", "Planned Closure", "Service Closed",
+    "Reduced Service", "Special Service"
+)
+| extend Severity = case(
+    status == "Severe Delays", 3,
+    status in ("Part Closure", "Part Suspended"), 2,
+    1
+)
+| summarize MaxSeverity = max(Severity) by line_name, bin(timestamp, 15m);
+let LineRank = SeverityByLine
+| summarize TotalSeverity = sum(MaxSeverity) by line_name
+| order by TotalSeverity desc, line_name asc
+| project line_name, rank = row_number();
+SeverityByLine
+| join kind=inner LineRank on line_name
+| project line_name, timestamp, MaxSeverity, rank
+| order by rank asc, timestamp asc, line_name asc

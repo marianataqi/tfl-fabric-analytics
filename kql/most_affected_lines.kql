@@ -1,0 +1,24 @@
+// Most Affected Lines (Bar Chart)
+// ============================================================
+// Identical severity-weighted scoring logic to
+// disruption_timeline_heatmap.kql, so the two visuals can never
+// rank lines differently. IMPORTANT: the primary sort (desc) and
+// tie-breaker (line_name asc) must always match the heatmap's
+// LineRank ordering exactly — a mismatch here was a real bug
+// found and fixed once already (see TECHNICAL_NOTES.md, section
+// 4). If you ever change one of these two queries, change both.
+
+LineStatus
+| where timestamp between (startTime .. endTime)
+| where status !in (
+    "Good Service", "Planned Closure", "Service Closed",
+    "Reduced Service", "Special Service"
+)
+| extend Severity = case(
+    status == "Severe Delays", 3,
+    status in ("Part Closure", "Part Suspended"), 2,
+    1
+)
+| summarize MaxSeverity = max(Severity) by line_name, bin(timestamp, 15m)
+| summarize TotalSeverityScore = sum(MaxSeverity) by line_name
+| order by TotalSeverityScore desc, line_name asc
