@@ -1,4 +1,4 @@
-# 🚇 TfL London Underground Real-Time Analytics Platform
+#  TfL London Underground Real-Time Analytics Platform
 
 A dual-pipeline analytics platform built on **Microsoft Fabric** that monitors and analyses London Underground service disruptions — combining a **batch (historical)** pipeline for trend analysis with a **real-time (streaming)** pipeline for live operational monitoring.
 
@@ -6,7 +6,7 @@ A dual-pipeline analytics platform built on **Microsoft Fabric** that monitors a
 
 ---
 
-## 📌 Business Problem
+##  Business Problem
 
 London Underground riders and operations teams need to answer two different kinds of questions:
 
@@ -17,7 +17,7 @@ This project deliberately builds *both*, using two independent pipelines fed fro
 
 ---
 
-## 🏗️ Architecture
+##  Architecture
 
 ```
                          TfL Unified API (polled every 15 min)
@@ -53,7 +53,7 @@ This project deliberately builds *both*, using two independent pipelines fed fro
 
 ---
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 | Layer | Technology | Purpose |
 |---|---|---|
@@ -72,7 +72,7 @@ This project deliberately builds *both*, using two independent pipelines fed fro
 
 ---
 
-## 📊 Data Model
+##  Data Model
 
 The Gold layer started as a simple star schema (`fact_disruption`, `dim_line`, `dim_date`) and was deliberately extended into a **Fact Constellation Schema** by adding two more fact tables that share `dim_line`:
 
@@ -86,7 +86,7 @@ The Gold layer started as a simple star schema (`fact_disruption`, `dim_line`, `
 
 ---
 
-## 📈 Dashboards
+##  Dashboards
 
 ### Batch — Power BI (Direct Lake), 4 pages
 1. **Network Overview** — live network health snapshot, KPI cards
@@ -104,7 +104,7 @@ The Gold layer started as a simple star schema (`fact_disruption`, `dim_line`, `
 
 ---
 
-## 🧠 Key Engineering Decisions
+##  Key Engineering Decisions
 
 A few decisions worth highlighting (full detail in [`TECHNICAL_NOTES.md`](./TECHNICAL_NOTES.md)):
 
@@ -115,7 +115,7 @@ A few decisions worth highlighting (full detail in [`TECHNICAL_NOTES.md`](./TECH
 
 ---
 
-## 🔍 Key Findings
+##  Key Findings
 
 - Victoria and District have consistently ranked among the most-affected lines across the monitored window
 - Off-peak hours show the highest concentration of planned closures
@@ -123,7 +123,7 @@ A few decisions worth highlighting (full detail in [`TECHNICAL_NOTES.md`](./TECH
 
 ---
 
-## ⚠️ Known Limitations
+##  Known Limitations
 
 Documented honestly rather than hidden — full list and reasoning in [`TECHNICAL_NOTES.md`](./TECHNICAL_NOTES.md):
 
@@ -135,7 +135,7 @@ Documented honestly rather than hidden — full list and reasoning in [`TECHNICA
 
 ---
 
-## 🚀 Future Work
+##  Future Work
 
 - Average delay per line measure (quick DAX addition)
 - A dedicated Data Quality layer (deferred to the next portfolio project, to be designed in from the start rather than retrofitted)
@@ -144,7 +144,7 @@ Documented honestly rather than hidden — full list and reasoning in [`TECHNICA
 
 ---
 
-## 📁 Repository Structure
+##  Repository Structure
 
 ```
 tfl-fabric-analytics/
