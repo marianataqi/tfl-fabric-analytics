@@ -188,5 +188,6 @@ tfl-fabric-analytics/
 ##  Author
 
 **Maria Nataqi** — Data Analyst transitioning into Data Engineering
-DP-600 (Microsoft Fabric) · PL-300 · Databricks Analyst Specialisation
+DP-600 (Microsoft Fabric) · PL-300 · Databricks Fundamentals
+
 [GitHub](https://github.com/marianataqi) · [LinkedIn](https://linkedin.com/in/marianataqi)
